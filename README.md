@@ -106,7 +106,7 @@ Ensure all necessary dependencies and data files of `requirements.txt` are in pl
 - Apply the Loan Word Classifier to identify loan words in given texts.
 
 ---
-This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT (mBERT)** and a custom classification model. For mid-evaluation purpose we trained the model by fine-tuning the last few layers of the mBERT model. In next phase we are planning to use more layers of the model for training. Along with that checking out on some other BERT models such as XLBERT and  The research paper used for reference is also attached alongwith in `reference_paper` directory.
+This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT (mBERT)** and a custom classification model. For mid-evaluation purpose we fine-tuned only the last few layers of mBERT. In the next phase, we plan to fine-tune more layers to improve performance. Additionally, we will explore other BERT-based models such as XLM-RoBERTa and XLBERT to compare their effectiveness. The research paper used for reference is also attached alongwith in `reference_paper` directory.
 
 ## Group Details
 Project for Deep Learning for Low Resource NLP (DS605)
