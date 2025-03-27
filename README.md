@@ -78,11 +78,21 @@ false loan word is ['abordage']
 - `training_bert.ipynb`: Fine-tuning mBERT.
 - `training_classifier.ipynb`: Training and validating the Loan Word Classifier.
 
-## 5. How to Use the Classifier for False Loan Word Detection
+
+## **5. Process for Running the Code**
+Before running the code, ensure that all file paths are correctly set. The execution sequence is as follows:
+
+1. `training_bert.ipynb` - Fine-tunes the multilingual BERT (mBERT) model on loan words and generates results.
+2. `bert_result.ipynb` - Stores accuracy and F1-score results.
+3. `training_classifier.ipynb` - Trains the Loan Word Classifier using fine-tuned embeddings.
+4. `testing_classifier.ipynb `- Tests the classifier on new input sentences.
+
+Ensure all necessary dependencies and data files are in place before running the code.
+## 5.1 How to Use the Classifier for False Loan Word Detection
 
 ### Step 1: Download the Model
 
-- Download the pre-trained model from Google Drive: [Link Here] (replace with actual link).
+- Download the pre-trained model from Google Drive: [https://drive.google.com/drive/folders/10jFIIsZyGxEs9sq7v7rupOFzhzAJw55f?usp=sharing].
 
 - Save it in the appropriate directory.
 
