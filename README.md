@@ -107,9 +107,3 @@ Ensure all necessary dependencies and data files of `requirements.txt` are in pl
 
 ---
 This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT (mBERT)** and a custom classification model. For mid-evaluation purpose we fine-tuned only the last few layers of mBERT. In the next phase, we plan to fine-tune more layers to improve performance. Additionally, we will explore other BERT-based models such as XLM-RoBERTa and XLBERT to compare their effectiveness. The research paper used for reference is also attached alongwith in `reference_paper` directory.
-
-## Group Details
-Project for Deep Learning for Low Resource NLP (DS605)
-- Anant Yadav (12140190)
-- Rahul (12141300)
-- Suprabho Saha (12141640)
