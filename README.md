@@ -1,9 +1,9 @@
 # **Loan Word Classification Using Fine-Tuned BERT**
 
 ## **1. Project Overview**
-Loan words are words borrowed from one language and incorporated into another. The main goal of this project is to **detect and classify loan words** using a **fine-tuned multilingual BERT (mBERT) model**.
+Loan words are words borrowed from one language and incorporated into another. The main goal of this project is to **detect and classify false loan words**. We have used a **fine-tuned multilingual BERT (mBERT) model** in order to achieve the goal of the project.
 
-By leveraging **natural language processing (NLP)** and **deep learning**, we:  
+By leveraging **Natural Language Processing (NLP)** and **Deep Learning**, we:  
 - Train a model to differentiate between loan words and native words.  
 - Fine-tune BERT on word pairs from multiple languages.  
 - Develop a **Loan Word Classifier** that detects loan words in text.  
@@ -23,8 +23,8 @@ To simplify classification, we **merge** these into two classes:
 - The fine-tuning is performed in **`training_bert.ipynb`**.  
 - We train on **word pairs** (loan word and actual word) across different **language pairs**.  
 - Performance is evaluated using **Accuracy & F1-score**.  
-- The results of accuracy and F1-score for different languages are stored in **`bert_result.ipynb`**.  
-- The CSV file is also stored by name **bert_result.csv**
+- The accuracy and F1-score for different languages are obtained in **`bert_result.ipynb`**.  
+- The results of the above are stored in **bert_result.csv**
 The model is trained on the following **language pairs**:  
 
 | **Language Pair**           | **Accuracy** | **F1-score** |
@@ -55,7 +55,7 @@ The model is trained on the following **language pairs**:
 - The classifier model is trained using **loan words and actual words**.  
 - Validation and training accuracy are recorded.  
 - Performance is assessed using **classification metrics** (Accuracy & F1-score).  
-- Given a **string of words**, the model predicts which words are **loan words**.  
+- Given a **sequence of words (sent4ence)**, the model predicts which words are **loan words**.  
 
 ### **Example Prediction**
 
@@ -87,12 +87,12 @@ Before running the code, ensure that all file paths are correctly set. The execu
 3. `training_classifier.ipynb` - Trains the Loan Word Classifier using fine-tuned embeddings.
 4. `testing_classifier.ipynb `- Tests the classifier on new input sentences.
 
-Ensure all necessary dependencies and data files are in place before running the code.
+Ensure all necessary dependencies and data files of `requirements.txt` are in place before running the code.
 ## 5.1 How to Use the Classifier for False Loan Word Detection
 
 ### Step 1: Download the Model
 
-- Download the pre-trained model from Google Drive: [https://drive.google.com/drive/folders/10jFIIsZyGxEs9sq7v7rupOFzhzAJw55f?usp=sharing].
+- You can access the pre-trained model from Google Drive: [https://drive.google.com/drive/folders/10jFIIsZyGxEs9sq7v7rupOFzhzAJw55f?usp=sharing].
 
 - Save it in the appropriate directory.
 
@@ -106,6 +106,4 @@ Ensure all necessary dependencies and data files are in place before running the
 - Apply the Loan Word Classifier to identify loan words in given texts.
 
 ---
-This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT** and a custom classification model.
-
-
+This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT (mBERT)** and a custom classification model. For mid-evaluation purpose we fine-tuned only the last few layers of mBERT. In the next phase, we plan to fine-tune more layers to improve performance. Additionally, we will explore other BERT-based models such as XLM-RoBERTa and XLBERT to compare their effectiveness. The research paper used for reference is also attached alongwith in `reference_paper` directory.
