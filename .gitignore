@@ -1,2 +1,5 @@
 model
 model.zip
+.env
+.ipynb_checkpoints/
+

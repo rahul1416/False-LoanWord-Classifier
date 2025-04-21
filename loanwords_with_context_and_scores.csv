@@ -1,0 +1,11 @@
+loan_word,original_word,generated_context,reference_sentence,translated_sentence,reference_word,label,bleu_score,meteor_score
+Mirth,Fröhlichkeit,Die Weihnachtsfeier strahlte vor Fröhlichkeit.,The Christmas party shone with joy.,The Christmas party radiated joyfulness.,Cheerfulness,synonym,0.2748254571080018,0.4990583804143125
+Schnorr,Chromatogramm,Das Chromatogramm zeigt die verschiedenen Bestandteile der Probe an.,The chromatogram shows the various components of the sample.,The chromatogram shows the various components of the sample.,Chromatogram,random,1.0000000000000004,0.9993141289437586
+Zettelkasten,Zettelkasten,Ich habe endlich meinen Zettelkasten aufgeräumt.,I finally cleaned up my paperbox.,I have finally tidied up my slip box.,Paper box,loan,0.1199014838091355,0.5090725806451614
+Meiring,Meiring,Meiring ist ein bekannter deutscher Familienname.,Meiring is a well-known German surname.,Meiring is a well-known German surname.,Meiring,loan,1.0000000000000004,0.9976851851851852
+Speth,Speth,Herr Speth ist unser neuer Nachbar.,Mr. Speth is our new neighbor.,Mr. Speth is our new neighbor.,Speth,loan,1.0000000000000004,0.9976851851851852
+Important,Gefeiert,Das Jubiläum wurde gestern Abend groß gefeiert.,The anniversary was celebrated very much last night.,The anniversary was celebrated in a big way last night.,Celebrated,synonym,0.33932513407933634,0.7181571815718157
+Breisgau,Ennen,"Ich war schon ennen hier, als das Restaurant noch nicht existierte.",I was already here when the restaurant didn't exist yet.,I was already here before the restaurant existed.,Eureka,random,0.2953872020786076,0.600907029478458
+Abstruse,Unklar,Die Bedingungen des Vertrags sind mir unklar.,The terms of the contract are unclear to me.,The conditions of the contract are unclear to me.,Unclear,synonym,0.7825422900366438,0.8819444444444444
+Uncommon,Fantastisch,"Das Konzert war fantastisch, ich habe mich sehr gut unterhalten.","The concert was fantastic, I had a very good conversation.","The concert was fantastic, I had a really great time.",Fantastic,synonym,0.6315552371794033,0.6989795918367346
+Wemhoff,Gut,Das ist gut.,That's good.,That is good.,Good,random,0.31947155212313627,0.2380952380952381
