@@ -1,109 +1,171 @@
-# **Loan Word Classification Using Fine-Tuned BERT**
+# Loan Word Classification and False Loan Word Detection
 
 ## **1. Project Overview**
-Loan words are words borrowed from one language and incorporated into another. The main goal of this project is to **detect and classify false loan words**. We have used a **fine-tuned multilingual BERT (mBERT) model** in order to achieve the goal of the project.
 
-By leveraging **Natural Language Processing (NLP)** and **Deep Learning**, we:  
-- Train a model to differentiate between loan words and native words.  
-- Fine-tune BERT on word pairs from multiple languages.  
-- Develop a **Loan Word Classifier** that detects loan words in text.  
+This project focuses on detecting and classifying **false loan words** using a combination of fine-tuned transformer models, translation analysis, and similarity-based filtering. It leverages the power of **multilingual BERT (mBERT)** and **LLMs (Ollama)** to build a robust pipeline for identifying misinterpreted or falsely borrowed words across languages.
 
-## **2. Data Understanding**
-The dataset consists of **loan words from various language pairs**, categorized into:  
-- **Hard negatives (False loan words)**  
-- **Loan words**  
-- **Synonyms**  
+## **2. Objectives**
 
-To simplify classification, we **merge** these into two classes:  
-- **False Loan Word (1):** Hard negatives  
-- **Loan Word (0):** Loan words, synonyms, and actual words  
+* Train a model to **differentiate loan words from native words**.
+* Detect **false loan words** (i.e., words that appear to be borrowed but are not genuine loan words).
+* Use **translation-based metrics** (BLEU, METEOR) to evaluate semantic drift.
+* Use **embedding similarity across languages** to detect mismatches.
 
-## **3. Model Explanation**
-### **Fine-Tuning mBERT**
-- The fine-tuning is performed in **`training_bert.ipynb`**.  
-- We train on **word pairs** (loan word and actual word) across different **language pairs**.  
-- Performance is evaluated using **Accuracy & F1-score**.  
-- The accuracy and F1-score for different languages are obtained in **`bert_result.ipynb`**.  
-- The results of the above are stored in **bert_result.csv**
-The model is trained on the following **language pairs**:  
+## **3. Datasets**
 
-| **Language Pair**           | **Accuracy** | **F1-score** |
-|-----------------------------|-------------|--------------|
-| Azerbaijani - Arabic        | 97.32%      | 0.9722       |
-| Catalan - Arabic            | 94.44%      | 0.9175       |
-| Chinese - English           | 94.21%      | 0.9329       |
-| English - French            | 92.02%      | 0.9062       |
-| English - German            | 91.16%      | 0.9116       |
-| Finnish - Swedish           | 92.80%      | 0.9186       |
-| German - French             | 91.54%      | 0.9074       |
-| German - Italian            | 88.00%      | 0.8800       |
-| Hindi - Persian             | 91.57%      | 0.9061       |
-| Hungarian - German          | 90.74%      | 0.9136       |
-| Indonesian - Dutch          | 90.26%      | 0.8929       |
-| Kazakh - Russian            | 94.78%      | 0.9410       |
-| Persian - Arabic            | 92.79%      | 0.9155       |
-| Polish - French             | 93.66%      | 0.9282       |
-| Romanian - French           | 92.98%      | 0.9208       |
-| Romanian - Hungarian        | 94.86%      | 0.9441       |
+The dataset includes multilingual loan word pairs and their corresponding labels:
 
+* **Loan Words (label: 0)**
+* **False Loan Words / Hard Negatives (label: 1)**
+* **Synonyms (label: 0)**
 
-### **Loan Word Classifier**
-- After fine-tuning, we **train a classifier** in **`training_classifier.ipynb`**.  
-- The classifier identifies loan words in a given **sentence or paragraph**.  
+The dataset is preprocessed to merge the above into two classes for binary classification.
 
-## **4. Training and Evaluation**
-- The classifier model is trained using **loan words and actual words**.  
-- Validation and training accuracy are recorded.  
-- Performance is assessed using **classification metrics** (Accuracy & F1-score).  
-- Given a **sequence of words (sent4ence)**, the model predicts which words are **loan words**.  
+## **4. Training Details**
 
-### **Example Prediction**
+### **4.1 Fine-Tuning BERT**
+
+* Model: `bert-base-multilingual-cased`
+* Tokenization performed on the `loan_word_epitran` feature.
+* Output files:
+
+  * `training_bert.ipynb`: Fine-tunes mBERT on labeled pairs.
+  * `bert_result.ipynb`: Stores and evaluates Accuracy and F1-Score per language pair.
+
+| Language Pair        | Accuracy | F1-score |
+| -------------------- | -------- | -------- |
+| Azerbaijani - Arabic | 97.32%   | 0.9722   |
+| English - German     | 91.16%   | 0.9116   |
+| Romanian - Hungarian | 94.86%   | 0.9441   |
+
+### **4.2 Classifier**
+
+* File: `training_classifier.ipynb`
+* Given a sentence, predicts each word’s probability of being a false loan word.
+
+Example:
 
 ```python
 sentence = "The government governed a new abordage policy."
 
-The        tensor([[0.8167, 0.1833]], device='cuda:0')
-government tensor([[0.5134, 0.4866]], device='cuda:0')
-governed   tensor([[0.7013, 0.2987]], device='cuda:0')
-a          tensor([[0.6716, 0.3284]], device='cuda:0')
-new        tensor([[0.6311, 0.3689]], device='cuda:0')
-abordage   tensor([[0.4892, 0.5108]], device='cuda:0')
-policy.    tensor([[0.7452, 0.2548]], device='cuda:0')
-
-
-false loan word is ['abordage']
+# Output:
+'abordage' is classified as the false loan word.
 ```
 
-### Files in the Repository:
-- `training_bert.ipynb`: Fine-tuning mBERT.
-- `training_classifier.ipynb`: Training and validating the Loan Word Classifier.
+## **5. Translation-Based Validation**
+
+File: `translation.ipynb`
+
+* Generate a **German sentence** using the loan word.
+* Translate it back to **English**.
+* Use **BLEU** and **METEOR** scores to compare against the reference sentence.
+* Metrics:
+
+  * `bleu_score`
+  * `meteor_score`
+
+## **6. LLM-Based Detection**
+
+File: `false_loanword_classifier.ipynb`
+
+* Uses **Ollama LLM (LLaMA 3.2)** to predict false loan words from sentences.
+
+Prompt example:
+
+```
+You are an expert linguistic model. 
+        Given a sentence, identify if there is a false loanword (a word that seems borrowed but is wrongly used or misinterpreted).
+        - If a false loanword is present, output only the false loanword (one word, no explanation).
+        - If no false loanword is found, output exactly: no
+        Sentence: {sentence}
+        Output Response should must contain one single word only
+        Output Format: Output_word
+        Do donnott include any other thing just give one single word output!
+```
 
 
-## **5. Process for Running the Code**
-Before running the code, ensure that all file paths are correctly set. The execution sequence is as follows:
+## **7. False Loan Word Detection Results**
 
-1. `training_bert.ipynb` - Fine-tunes the multilingual BERT (mBERT) model on loan words and generates results.
-2. `bert_result.ipynb` - Stores accuracy and F1-score results.
-3. `training_classifier.ipynb` - Trains the Loan Word Classifier using fine-tuned embeddings.
-4. `testing_classifier.ipynb `- Tests the classifier on new input sentences.
+To further refine the detection of false loan words, we employed a post-classification filtering strategy based on:
 
-Ensure all necessary dependencies and data files of `requirements.txt` are in place before running the code.
-## 5.1 How to Use the Classifier for False Loan Word Detection
+* **Translation Quality Metrics (BLEU, METEOR)**
+* **Embedding Similarity Scores (English vs. German)**
+* **LLM-based Detection (Ollama with LLaMA-3)**
 
-### Step 1: Download the Model
+### **Lost in Translation Heuristic**
 
-- You can access the pre-trained model from Google Drive: [https://drive.google.com/drive/folders/10jFIIsZyGxEs9sq7v7rupOFzhzAJw55f?usp=sharing].
+Using a heuristic that flags a word as a **false loan word** (i.e., "lost in translation") if:
 
-- Save it in the appropriate directory.
+* The **German embedding similarity** is higher than the English one.
+* At least **3 out of 4** conditions were satisfied:
 
-### Step 2: Run the Classifier
-- Open ```classifier.ipynb.```
-- Input a sentence.
-- The model will predict which words are **false loan words**.
+  * BLEU score < 0.5
+  * METEOR score < 0.5
+  * German embedding similarity > English similarity
+  * The predicted word by the LLM is not `"false"`
 
-## 6. Usage
-- Use the fine-tuned mBERT model for loan word detection.
-- Apply the Loan Word Classifier to identify loan words in given texts.
+We filtered the predictions accordingly:
+
+```
+final_score = 0.6579  # (i.e., ~65.79% accurate detection of lost in translation cases)
+```
+
+## **8. Key Finding**
+
+> **German similarity dominance** in the embedding space strongly correlates with false loan word presence in translated sentences.
+> Thus, a higher `sim_eng_ger[1]` (German) indicates that the German word is more semantically aligned, and the English term used might be a **false loan word**.
+
+### **Conclusion**
+
+With a final detection accuracy of **65.79%** under the proposed heuristic, this approach effectively isolates **false loan words** using a combination of **contextual translation metrics, embeddings, and LLM predictions**.
+
+## **9. Final Files and Execution Order**
+
+| File                              | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
+| `training_bert.ipynb`             | Fine-tunes mBERT on labeled loan word pairs      |
+| `bert_result.ipynb`               | Stores results across language pairs             |
+| `training_classifier.ipynb`       | Trains sentence-level false loan word classifier |
+| `translation.ipynb`               | Translates loan word sentences and scores them   |
+| `false_loanword_classifier.ipynb` | Detects false loan words using mBERT + LLM       |
+
+## **10. How to Use**
+
+### **Step 1: Clone the Repo and Install Requirements**
+
+```bash
+pip install -r requirements.txt
+```
+
+### **Step 2: Fine-tune the Model**
+
+Run `training_bert.ipynb` followed by `training_classifier.ipynb`
+
+### **Step 3: Analyze with Translations**
+
+Run `translation.ipynb` and generate BLEU/METEOR metrics.
+
+### **Step 4: Run Classifier**
+
+Use `false_loanword_classifier.ipynb` to test the model on new text.
+
+
+### **Step 5: Filter Results**
+
+Use `filtered_df` logic to shortlist true false loanwords.
+
+## **11. Pretrained Model**
+
+You can download pretrained models here:
+[Google Drive Link](https://drive.google.com/drive/folders/10jFIIsZyGxEs9sq7v7rupOFzhzAJw55f?usp=sharing)
+
+## **12. Future Work**
+
+* Fine-tune deeper layers of BERT.
+* Incorporate **XLM-RoBERTa**, **XLBERT**.
+* Expand to more language pairs.
+* Add **contextual paraphrase detection**.
 
 ---
-This project helps in **loan word identification** across multiple languages by leveraging **multilingual BERT (mBERT)** and a custom classification model. For mid-evaluation purpose we fine-tuned only the last few layers of mBERT. In the next phase, we plan to fine-tune more layers to improve performance. Additionally, we will explore other BERT-based models such as XLM-RoBERTa and XLBERT to compare their effectiveness. The research paper used for reference is also attached alongwith in `reference_paper` directory.
+
+This project builds a robust pipeline for multilingual loan word classification and lost-in-translation detection using a combination of machine learning and LLM reasoning. The integration of **translation metrics**, **embedding similarity**, and **LLM filtering** leads to strong precision in detecting semantic errors due to false loan words.
