@@ -1,4 +1,4 @@
-# Loan Word Classification and False Loan Word Detection
+# False Loan Word Detection
 
 ## **1. Project Overview**
 
